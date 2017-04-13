@@ -1,7 +1,7 @@
 <?php
 $i = 0;
 while (true) {
-	$url="https://pente-server.herokuapp.com/connect/coucou"; 
+	$url="https://pente-server.herokuapp.com/connect/coucou".$i; 
 
 	$options=array(
 	      CURLOPT_URL            => $url,
