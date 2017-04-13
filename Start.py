@@ -16,42 +16,25 @@ class Ai:
         self.score_vs = score_vs
         self.player = player
         self.round = round
-        self.lookingAt = AI_POSITION
+        self.lookingAt = player
 
-    def isPosMine(self, x, y):
-        if x < 0 or y < 0 or x >= len(self.board) or y >= len(self.board): return False
-        if self.board[y][x] == self.lookingAt: return True
-        return False
-
-    def isPosTheirs(self, x, y):
-        if x < 0 or y < 0 or x >= len(self.board) or y >= len(self.board): return False
-        if self.board[y][x] == (not self.lookingAt): return True
-        return False
-    # def isPosMine(self, x,y):
-    #     if self.board[x][y] == self.player:
-    #         return True
-    #     else:
-    #         return False
-    #     #if x<0 or y<0 or x>=len(self.board) or y>=len(self.board): return False
-    #     #if self.board[y][x] == self.lookingAt: return True
-    #     #return False
-    #
-    #
-    # def isPosTheirs(self,x,y):
-    #     print(x)
-    #     print(y)
-    #     if self.board[x][y] != self.player and self.board[x][y] != "0":
-    #         return True
-    #     else:
-    #         return False
-    #     #if x<0 or y<0 or x>=len(self.board) or y>=len(self.board): return False
-    #     #if self.board[y][x] == (not self.lookingAt): return True
-    #     #return False
+    def isPosMine(self, x,y):
+        if self.board[x][y] == self.player:
+            return True
+        else:
+            return False
+    
+    
+    def isPosTheirs(self,x,y):
+        if self.board[x][y] != self.player and self.board[x][y] != 0:
+            return True
+        else:
+            return False
 
 
     def findConsecutiveVertical(self,x,y):
         score = 0
-        for i in range(5):
+        for i in range(9):
             y+=1
             if self.isPosTheirs(x,y): return 0
             if self.isPosMine(x,y): score+=1
@@ -60,7 +43,7 @@ class Ai:
 
     def findConsecutiveHorizontal(self,x,y):
         score = 0
-        for i in range(5):
+        for i in range(9):
             x+=1
             if self.isPosTheirs(x,y): return 0
             if self.isPosMine(x,y): score+=1
@@ -69,7 +52,7 @@ class Ai:
 
     def findConsecutiveDiagonalRight(self,x,y):
         score = 0
-        for i in range(5):
+        for i in range(9):
             x+=1
             y+=1
             if self.isPosTheirs(x,y): return 0
@@ -79,7 +62,7 @@ class Ai:
 
     def findConsecutiveDiagonalLeft(self,x,y):
         score = 0
-        for i in range(5):
+        for i in range(9):
             x-=1
             y+=1
             if self.isPosTheirs(x,y): return 0
@@ -93,6 +76,7 @@ class Ai:
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
                 for positionFunction in self.positionFunctions:
+                    print(i)
                     score = positionFunction(self,i,j)
                     if score>0:
                         if score not in points: points[score] = 1
@@ -117,10 +101,11 @@ class Ai:
         coords = set()
         for i in range(len(board)):
             for j in range(len(board)):
-                if board[i][j] != "0":
+                if board[i][j] != 0:
                     cols = range(max(i-2,0),min(i+3,len(board)))
                     rows = range(max(j-2,0),min(j+3,len(board)))
-                    points_to_add = {(p_i,p_j) for p_i in rows for p_j in cols if (p_i,p_j) not in coords and board[p_i][p_j]=="0"}
+                    points_to_add = {(p_i,p_j) for p_i in rows for p_j in cols if (p_i,p_j) not in coords and board[p_i][p_j]==0}
+
                     coords.update(points_to_add)
         return coords
 
@@ -206,7 +191,6 @@ class Ai:
 
     def makeMove(self):
         tree = self.thinkDownTree(self.board, stepsRemaining=2)
-        print({move: self.get_best_move_from_branch(branch) for move, branch in tree.items()})
         x = self.get_best_move_from_tree(tree)
         return x
 
