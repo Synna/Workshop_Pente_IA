@@ -12,11 +12,11 @@ class Ai:
 
     def __init__(self, board, score, score_vs, player, round):
         self.board = board
-        self.score = score
-        self.score_vs = score_vs
-        self.player = player
+        #self.score = score
+        #self.score_vs = score_vs
+        self.player = player.strip('"')
         self.round = round
-        self.lookingAt = player
+        self.lookingAt = player.strip('"')
 
     def isPosMine(self, x,y):
         if self.board[x][y] == self.player:
@@ -34,49 +34,52 @@ class Ai:
 
     def findConsecutiveVertical(self,x,y):
         score = 0
-        for i in range(9):
+        for i in range(5):
             y+=1
-            if self.isPosTheirs(x,y): return 0
-            if self.isPosMine(x,y): score+=1
+            if (y) < len(self.board):
+                if self.isPosTheirs(x,y): return 0
+                if self.isPosMine(x,y): score+=1
         return score
 
 
     def findConsecutiveHorizontal(self,x,y):
         score = 0
-        for i in range(9):
+        for i in range(5):
             x+=1
-            if self.isPosTheirs(x,y): return 0
-            if self.isPosMine(x,y): score+=1
+            if (x) < len(self.board):
+                if self.isPosTheirs(x,y): return 0
+                if self.isPosMine(x,y): score+=1
         return score
 
 
     def findConsecutiveDiagonalRight(self,x,y):
         score = 0
-        for i in range(9):
+        for i in range(5):
             x+=1
             y+=1
-            if self.isPosTheirs(x,y): return 0
-            if self.isPosMine(x,y): score+=1
+            if (x) < len(self.board) and (y) < len(self.board):
+                if self.isPosTheirs(x,y): return 0
+                if self.isPosMine(x,y): score+=1
         return score
 
 
     def findConsecutiveDiagonalLeft(self,x,y):
         score = 0
-        for i in range(9):
+        for i in range(5):
             x-=1
             y+=1
-            if self.isPosTheirs(x,y): return 0
-            if self.isPosMine(x,y): score+=1
+            if (x) >= 0 and (y) < len(self.board):
+                if self.isPosTheirs(x,y): return 0
+                if self.isPosMine(x,y): score+=1
         return score
 
     positionFunctions = [findConsecutiveVertical,findConsecutiveHorizontal,findConsecutiveDiagonalRight,findConsecutiveDiagonalLeft]
 
     def getConsecutive(self):
         points = {}
-        for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
+        for i in range(len(self.board)-1):
+            for j in range(len(self.board[i])-1):
                 for positionFunction in self.positionFunctions:
-                    print(i)
                     score = positionFunction(self,i,j)
                     if score>0:
                         if score not in points: points[score] = 1
