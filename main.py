@@ -16,15 +16,18 @@ app = Flask(__name__)
 
 @app.route('/board', methods = ['PUT'])
 def api_board():
-    board = json.dumps(request.json['board'])
+    board = json.loads(json.dumps(request.json['board']))
     score = json.dumps(request.json['score']);
     score_vs = json.dumps(request.json['score_vs']);
     player = json.dumps(request.json['player']);
     round = json.dumps(request.json['round']);
 
     launch_ia = Start.Ai(board, score, score_vs, player, round)
-    valueToReturn = launch_ia.MinMax()
-    print(valueToReturn)
+    returnSet = launch_ia.MinMax()
+
+    valueToReturn = []
+    valueToReturn.append(returnSet(0))
+    valueToReturn.append(returnSet(1))
 
     js = json.dumps(valueToReturn)
 

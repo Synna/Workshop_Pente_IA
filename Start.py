@@ -104,12 +104,15 @@ class Ai:
 
     def generateMoves(self,board):
         coords = set()
-        print(len(board))
         for i in range(len(board)):
             for j in range(len(board)):
                 if board[i][j] != 0:
                     cols = range(max(i-2,0),min(i+3,len(board)))
                     rows = range(max(j-2,0),min(j+3,len(board)))
+                    #for p_i in rows :
+                    #    for p_j in cols :
+                    #        if (p_i, p_j) not in coords and board[p_i][p_j] == 0:
+                    #            points_to_add = [p_i,p_j]
                     points_to_add = {(p_i,p_j) for p_i in rows for p_j in cols if (p_i,p_j) not in coords and board[p_i][p_j]==0}
                     coords.update(points_to_add)
         return coords
@@ -155,6 +158,7 @@ class Ai:
                         best_score = move_score
         else:
             best_score = branch
+
         return best_score
 
 
@@ -194,14 +198,14 @@ class Ai:
 
 
     def makeMove(self):
-        tree = self.thinkDownTree(self.board,stepsRemaining=2)
+        print(self.board)
+        tree = self.thinkDownTree(self.board, stepsRemaining=2)
         print({move: self.get_best_move_from_branch(branch) for move, branch in tree.items()})
         x = self.get_best_move_from_tree(tree)
-        return xl
+        return x
 
     def MinMax(self):
 
         move_make = self.makeMove()
-        print(move_make)
 
-        return {"x": "6", "y": "7"}
+        return {move_make}
