@@ -104,12 +104,13 @@ class Ai:
 
     def generateMoves(self,board):
         coords = set()
+        print(len(board))
         for i in range(len(board)):
             for j in range(len(board)):
-                if board[i][j] != None:
+                if board[i][j] != 0:
                     cols = range(max(i-2,0),min(i+3,len(board)))
                     rows = range(max(j-2,0),min(j+3,len(board)))
-                    points_to_add = {(p_i,p_j) for p_i in rows for p_j in cols if (p_i,p_j) not in coords and board[p_i][p_j]==None}
+                    points_to_add = {(p_i,p_j) for p_i in rows for p_j in cols if (p_i,p_j) not in coords and board[p_i][p_j]==0}
                     coords.update(points_to_add)
         return coords
 
