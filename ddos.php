@@ -1,4 +1,5 @@
 <?php
+$i = 0;
 while (true) {
 	$url="https://pente-server.herokuapp.com/connect/coucou"; 
 
@@ -14,5 +15,7 @@ while (true) {
 	 
 	      $content=curl_exec($CURL);
 	curl_close($CURL);
-	echo $content;
+	$i++;
 }
+
+echo $i;
