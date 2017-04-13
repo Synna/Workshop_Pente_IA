@@ -25,10 +25,8 @@ def api_board():
     launch_ia = Start.Ai(board, score, score_vs, player, round)
     returnSet = launch_ia.MinMax()
 
-    valueToReturn = []
-    valueToReturn.append(returnSet(0))
-    valueToReturn.append(returnSet(1))
-
+    valueToReturn = list(returnSet)
+    print(valueToReturn)
     js = json.dumps(valueToReturn)
 
     resp = Response(js, status=200, mimetype='application/json')

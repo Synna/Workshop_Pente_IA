@@ -18,24 +18,35 @@ class Ai:
         self.round = round
         self.lookingAt = AI_POSITION
 
-    def isPosMine(self, x,y):
-        if self.board[x][y] == self.player:
-            return True
-        else:
-            return False
-        #if x<0 or y<0 or x>=len(self.board) or y>=len(self.board): return False
-        #if self.board[y][x] == self.lookingAt: return True
-        #return False
+    def isPosMine(self, x, y):
+        if x < 0 or y < 0 or x >= len(self.board) or y >= len(self.board): return False
+        if self.board[y][x] == self.lookingAt: return True
+        return False
 
-
-    def isPosTheirs(self,x,y):
-        if self.board[x][y] != self.player and self.board[x][y] != 0:
-            return True
-        else:
-            return False
-        #if x<0 or y<0 or x>=len(self.board) or y>=len(self.board): return False
-        #if self.board[y][x] == (not self.lookingAt): return True
-        #return False
+    def isPosTheirs(self, x, y):
+        if x < 0 or y < 0 or x >= len(self.board) or y >= len(self.board): return False
+        if self.board[y][x] == (not self.lookingAt): return True
+        return False
+    # def isPosMine(self, x,y):
+    #     if self.board[x][y] == self.player:
+    #         return True
+    #     else:
+    #         return False
+    #     #if x<0 or y<0 or x>=len(self.board) or y>=len(self.board): return False
+    #     #if self.board[y][x] == self.lookingAt: return True
+    #     #return False
+    #
+    #
+    # def isPosTheirs(self,x,y):
+    #     print(x)
+    #     print(y)
+    #     if self.board[x][y] != self.player and self.board[x][y] != "0":
+    #         return True
+    #     else:
+    #         return False
+    #     #if x<0 or y<0 or x>=len(self.board) or y>=len(self.board): return False
+    #     #if self.board[y][x] == (not self.lookingAt): return True
+    #     #return False
 
 
     def findConsecutiveVertical(self,x,y):
@@ -109,12 +120,8 @@ class Ai:
                 if board[i][j] != "0":
                     cols = range(max(i-2,0),min(i+3,len(board)))
                     rows = range(max(j-2,0),min(j+3,len(board)))
-                    #points_to_add = {(p_i,p_j) for p_i in rows for p_j in cols if (p_i,p_j) not in coords and board[p_i][p_j]==None}
-                    for p_i in rows:
-                        for p_j in cols:
-                            if (p_i, p_j) not in coords and board[p_i][p_j] == "0":
-                                points_to_add = (p_i,p_j)
-                                coords.update(points_to_add)
+                    points_to_add = {(p_i,p_j) for p_i in rows for p_j in cols if (p_i,p_j) not in coords and board[p_i][p_j]=="0"}
+                    coords.update(points_to_add)
         return coords
 
 
